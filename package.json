@@ -1,0 +1,23 @@
+{
+  "name": "cors-anywhere",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/t7ru/cors-anywhere.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/t7ru/cors-anywhere/issues"
+  },
+  "homepage": "https://github.com/t7ru/cors-anywhere#readme",
+  "description": "",
+  "dependencies": {
+    "node-fetch": "^2.7.0"
+  }
+}
