@@ -1,20 +1,7 @@
 {
-  "version": 2,
-  "functions": {
-    "api/*.js": {
-      "memory": 1024,
-      "maxDuration": 10
-    }
-  },
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/index.js",
-      "headers": {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-        "Access-Control-Allow-Headers": "X-Requested-With, Content-Type, X-User-Agent, X-Requested-By"
-      }
-    }
-  ]
-}
+    "version": 2,
+    "routes": [
+      { "src": "/(.*)", "dest": "/api/index.js" }
+    ]
+  }
+  

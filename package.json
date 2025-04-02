@@ -1,27 +1,15 @@
 {
   "name": "cors-anywhere",
   "version": "1.0.0",
-  "main": "api/index.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node api/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/t7ru/cors-anywhere.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/t7ru/cors-anywhere/issues"
-  },
-  "homepage": "https://github.com/t7ru/cors-anywhere#readme",
-  "description": "CORS proxy server for API requests",
+  "description": "",
   "dependencies": {
-    "node-fetch": "^2.7.0"
-  },
-  "engines": {
-    "node": ">=14.x"
+    "cors-anywhere": "^0.4.4"
   }
 }
