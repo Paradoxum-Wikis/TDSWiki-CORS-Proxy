@@ -16,11 +16,18 @@ module.exports = (req, res) => {
     return;
   }
 
-  // Handle both query parameter and path approaches
+  // Handle query parameter approach
   if (req.query.url) {
-    // If URL is provided as a query parameter, modify the URL in the request
     const targetUrl = req.query.url;
-    req.url = '/' + targetUrl;
+    
+    // Ensure the URL is properly formatted
+    if (targetUrl.startsWith('http://') || targetUrl.startsWith('https://')) {
+      req.url = '/' + targetUrl;
+    } else {
+      req.url = '/https://' + targetUrl;
+    }
+    
+    console.log("Proxying to:", req.url);
   }
   
   server.emit("request", req, res);
