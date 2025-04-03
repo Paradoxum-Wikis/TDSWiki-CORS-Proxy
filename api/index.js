@@ -30,6 +30,7 @@ module.exports = (req, res) => {
           <title>CORS Proxy for TDS Wiki</title>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1">
+          <link rel="shortcut icon" href="https://static.wikia.nocookie.net/tower-defense-sim/images/4/4a/Site-favicon.ico">
           <style>
             body {
               font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -57,16 +58,33 @@ module.exports = (req, res) => {
           <h1>TDS Wiki CORS Proxy</h1>
           <p>This service enables cross-origin requests to the <a href="https://tds.fandom.com">TDS Wiki</a> only.</p>
           
-          <h2>Usage:</h2>
+          <h2>Usage</h2>
+          <p>Use this proxy to fetch TDS Wiki pages by prepending the proxy URL to your target wiki URL or by passing the target URL as a query parameter. Both methods are supported for flexibility.</p>
+
+          <h3>Method 1: Query Parameter (Recommended)</h3>
+          <p>Pass the TDS Wiki URL as a URL-encoded <code>url</code> query parameter after the proxy base URL:</p>
+          <div class="lmao">
+            <p><code>https://occulticnine.vercel.app/?url=https%3A%2F%2Ftds.fandom.com%2Fwiki%2Fpage</code></p>
+            <p><strong>Example Output:</strong> Returns the HTML content of the <code>/wiki/page</code> page.</p>
+          </div>
+          <p><strong>Tip:</strong> Use a tool like JavaScript’s <code>encodeURIComponent("https://tds.fandom.com/wiki/page")</code> to encode the URL properly.</p>
+
+          <h3>Method 2: Path-Based Proxy</h3>
+          <p>Simply append the full TDS Wiki URL (including <code>https://</code>) directly after the proxy base URL:</p>
           <div class="lmao">
             <p><code>https://occulticnine.vercel.app/https://tds.fandom.com/wiki/page</code></p>
+            <p><strong>Example Output:</strong> Returns the HTML content of the <code>/wiki/page</code> page.</p>
           </div>
-          
-          <p>Or with a query parameter:</p>
+          <p><strong>Note:</strong> Make sure that the target URL is fully qualified (starts with <code>https://</code>) and belongs to <code>tds.fandom.com</code>.</p>
+
+          <h3>Example in JavaScript</h3>
           <div class="lmao">
-            <p><code>https://occulticnine.vercel.app/?url=https://tds.fandom.com/wiki/page</code></p>
+            <pre><code>fetch('https://occulticnine.vercel.app/?url=' + encodeURIComponent('https://tds.fandom.com/wiki/page'))
+            .then(response => response.text())
+            .then(html => console.log(html))
+            .catch(error => console.error('Error:', error));</code></pre>
           </div>
-          
+
           <h2>Restrictions:</h2>
           <ul>
             <li>Only requests to <code>tds.fandom.com</code> are allowed</li>
@@ -104,7 +122,7 @@ module.exports = (req, res) => {
     }
   } catch (err) {
     res.statusCode = 400;
-    res.end('Poyaya!? The URL provided is an invalid!');
+    res.end('Poyaya!? The URL provided is an invalid one!');
     return;
   }
   
