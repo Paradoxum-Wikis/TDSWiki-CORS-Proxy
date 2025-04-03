@@ -56,7 +56,7 @@ module.exports = (req, res) => {
         </head>
         <body>
           <h1>TDS Wiki CORS Proxy</h1>
-          <p>This service enables cross-origin requests to the <a href="https://tds.fandom.com">TDS Wiki</a> only.</p>
+          <p>This service enables cross-origin requests to the <a href="https://tds.fandom.com">Tower Defense Simulator Wiki</a> only.</p>
           
           <h2>Usage</h2>
           <p>Use this proxy to fetch TDS Wiki pages by prepending the proxy URL to your target wiki URL or by passing the target URL as a query parameter. The two methods are, of course, supported for flexibility.</p>
@@ -65,7 +65,7 @@ module.exports = (req, res) => {
           <p>Pass the TDS Wiki URL as a URL-encoded <code>url</code> query parameter after the proxy base URL:</p>
           <div class="lmao">
             <p><code>https://occulticnine.vercel.app/?url=https%3A%2F%2Ftds.fandom.com%2Fwiki</code></p>
-            <p><strong>Example Output:</strong> Returns the HTML content of the <code>/wiki</code> page.</p>
+            <p><strong>Example Output:</strong> Returns the HTML content of the <code>/wiki/</code> page.</p>
           </div>
           <p><strong>Note:</strong> Use a tool like JavaScript’s <code>encodeURIComponent("https://tds.fandom.com/wiki/")</code> to encode the URL properly.</p>
 
@@ -90,6 +90,7 @@ module.exports = (req, res) => {
             <li>Only requests to <code>tds.fandom.com</code> are allowed</li>
             <li>Cookies are disabled and stripped from requests</li>
             <li>Redirects are automatically followed (up to 5 redirects)</li>
+            <li>Reaching singularity and then murder Gabonnie.</li>
           </ul>
           
           <p><small>Powered by <a href="https://github.com/Rob--W/cors-anywhere/">CORS Anywhere</a>, named after <a href="https://wikipedia.org/wiki/Occultic;Nine">Occultic;Nine</a>.</small></p>
