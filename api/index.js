@@ -59,27 +59,27 @@ module.exports = (req, res) => {
           <p>This service enables cross-origin requests to the <a href="https://tds.fandom.com">TDS Wiki</a> only.</p>
           
           <h2>Usage</h2>
-          <p>Use this proxy to fetch TDS Wiki pages by prepending the proxy URL to your target wiki URL or by passing the target URL as a query parameter. Both methods are supported for flexibility.</p>
+          <p>Use this proxy to fetch TDS Wiki pages by prepending the proxy URL to your target wiki URL or by passing the target URL as a query parameter. The two methods are, of course, supported for flexibility.</p>
 
           <h3>Method 1: Query Parameter (Recommended)</h3>
           <p>Pass the TDS Wiki URL as a URL-encoded <code>url</code> query parameter after the proxy base URL:</p>
           <div class="lmao">
-            <p><code>https://occulticnine.vercel.app/?url=https%3A%2F%2Ftds.fandom.com%2Fwiki%2Fpage</code></p>
-            <p><strong>Example Output:</strong> Returns the HTML content of the <code>/wiki/page</code> page.</p>
+            <p><code>https://occulticnine.vercel.app/?url=https%3A%2F%2Ftds.fandom.com%2Fwiki</code></p>
+            <p><strong>Example Output:</strong> Returns the HTML content of the <code>/wiki</code> page.</p>
           </div>
-          <p><strong>Tip:</strong> Use a tool like JavaScript’s <code>encodeURIComponent("https://tds.fandom.com/wiki/page")</code> to encode the URL properly.</p>
+          <p><strong>Note:</strong> Use a tool like JavaScript’s <code>encodeURIComponent("https://tds.fandom.com/wiki/")</code> to encode the URL properly.</p>
 
           <h3>Method 2: Path-Based Proxy</h3>
-          <p>Simply append the full TDS Wiki URL (including <code>https://</code>) directly after the proxy base URL:</p>
+          <p>Simply just append the full TDS Wiki URL (including <code>https://</code>) directly after the proxy base URL:</p>
           <div class="lmao">
-            <p><code>https://occulticnine.vercel.app/https://tds.fandom.com/wiki/page</code></p>
-            <p><strong>Example Output:</strong> Returns the HTML content of the <code>/wiki/page</code> page.</p>
+            <p><code>https://occulticnine.vercel.app/https://tds.fandom.com/wiki/</code></p>
+            <p><strong>Example Output:</strong> Returns the HTML content of the <code>/wiki/</code> page.</p>
           </div>
           <p><strong>Note:</strong> Make sure that the target URL is fully qualified (starts with <code>https://</code>) and belongs to <code>tds.fandom.com</code>.</p>
 
           <h3>Example in JavaScript</h3>
           <div class="lmao">
-            <pre><code>fetch('https://occulticnine.vercel.app/?url=' + encodeURIComponent('https://tds.fandom.com/wiki/page'))
+            <pre><code>fetch('https://occulticnine.vercel.app/?url=' + encodeURIComponent('https://tds.fandom.com/wiki'))
             .then(response => response.text())
             .then(html => console.log(html))
             .catch(error => console.error('Error:', error));</code></pre>
