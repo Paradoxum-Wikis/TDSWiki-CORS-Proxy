@@ -1,18 +1,19 @@
 const corsAnywhere = require("cors-anywhere");
 
+// Create server with modified settings
 const server = corsAnywhere.createServer({
-  originWhitelist: [], // We'll handle domain restriction manually
+  originWhitelist: [],
   requireHeader: [],
-  removeHeaders: ["cookie", "cookie2"],
-  helpFile: null, // Disable default help file
+  removeHeaders: ["cookie2"],  // Don't remove all cookies
+  helpFile: null
 });
 
-// Allowed domain
-const ALLOWED_DOMAIN = "tds.fandom.com";
+// Allow both TDS Wiki and Roblox domains
+const ALLOWED_DOMAINS = ["tds.fandom.com", "roblox.com", "roproxy.com"];
 
 module.exports = (req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE");
+  res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
   if (req.method === "OPTIONS") {
@@ -113,21 +114,26 @@ module.exports = (req, res) => {
     }
   }
 
-  // Check if URL is from allowed domain
+  // Check if URL is from allowed domains
   try {
     const urlObj = new URL(targetUrl);
-    if (!urlObj.hostname.endsWith(ALLOWED_DOMAIN)) {
+    if (!ALLOWED_DOMAINS.some(domain => urlObj.hostname.includes(domain))) {
       res.statusCode = 403;
-      res.end(`Poyaya!? Only ${ALLOWED_DOMAIN} are allowed, sorry!`);
+      res.end(`Only these domains are allowed: ${ALLOWED_DOMAINS.join(', ')}`);
       return;
+    }
+
+    // Add ROBLOSECURITY cookie for Roblox domains
+    if (urlObj.hostname.includes('roblox.com') || urlObj.hostname.includes('roproxy.com')) {
+      req.headers['cookie'] = `.ROBLOSECURITY=${process.env.ROBLOSECURITY}`;
     }
   } catch (err) {
     res.statusCode = 400;
-    res.end('Poyaya!? The URL provided is an invalid one!');
+    res.end('Invalid URL provided');
     return;
   }
   
-  // Ensure the URL is properly formatted for cors-anywhere
+  // Format URL for cors-anywhere
   if (req.query.url) {
     if (targetUrl.startsWith('http://') || targetUrl.startsWith('https://')) {
       req.url = '/' + targetUrl;
