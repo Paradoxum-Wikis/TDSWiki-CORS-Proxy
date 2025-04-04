@@ -1,14 +1,29 @@
 const corsAnywhere = require("cors-anywhere");
 
+// Configure cors-anywhere but ALLOW cookies for Roblox domains only
 const server = corsAnywhere.createServer({
-  originWhitelist: [], // We'll handle domain restriction manually
+  originWhitelist: [],
   requireHeader: [],
-  removeHeaders: ["cookie", "cookie2"],
-  helpFile: null, // Disable default help file
+  removeHeaders: ["cookie2"], // Don't automatically strip all cookies
+  helpFile: null,
+  
+  // Custom request processor to handle cookies
+  getProxyForUrl: function(url) {
+    return url; // Return the URL directly to use default proxy
+  },
+  
+  // Custom request handler to add cookies for specific domains
+  onRequest: function(req, res, options) {
+    // Check if request is going to a Roblox domain
+    if (options.target.host.includes('roblox.com')) {
+      // Add the ROBLOSECURITY cookie for Roblox domains
+      req.headers['cookie'] = `.ROBLOSECURITY=${process.env.ROBLOSECURITY}`;
+    }
+  }
 });
 
-// Allowed domain
-const ALLOWED_DOMAIN = "tds.fandom.com";
+// Allowed domains - add Roblox domains
+const ALLOWED_DOMAINS = ["tds.fandom.com", "assetdelivery.roblox.com"];
 
 module.exports = (req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -113,17 +128,17 @@ module.exports = (req, res) => {
     }
   }
 
-  // Check if URL is from allowed domain
+  // Check if URL is from allowed domains
   try {
     const urlObj = new URL(targetUrl);
-    if (!urlObj.hostname.endsWith(ALLOWED_DOMAIN)) {
+    if (!ALLOWED_DOMAINS.some(domain => urlObj.hostname.endsWith(domain))) {
       res.statusCode = 403;
-      res.end(`Poyaya!? Only ${ALLOWED_DOMAIN} are allowed, sorry!`);
+      res.end(`Poyaya!? Access was denied! The only allowed domains are: ${ALLOWED_DOMAINS.join(', ')}`);
       return;
     }
   } catch (err) {
     res.statusCode = 400;
-    res.end('Poyaya!? The URL provided is an invalid one!');
+    res.end('Poyaya!? That is an invalid URL!');
     return;
   }
   
