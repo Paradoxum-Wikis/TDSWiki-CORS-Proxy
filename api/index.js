@@ -119,7 +119,7 @@ module.exports = (req, res) => {
     const urlObj = new URL(targetUrl);
     if (!ALLOWED_DOMAINS.some(domain => urlObj.hostname.includes(domain))) {
       res.statusCode = 403;
-      res.end(`Only these domains are allowed: ${ALLOWED_DOMAINS.join(', ')}`);
+      res.end(`Poyaya!? Sorry, only these domains are allowed: ${ALLOWED_DOMAINS.join(', ')}`);
       return;
     }
 
@@ -129,7 +129,7 @@ module.exports = (req, res) => {
     }
   } catch (err) {
     res.statusCode = 400;
-    res.end('Invalid URL provided');
+    res.end('Poyaya!? You need to provide a valid URL!');
     return;
   }
   
