@@ -140,7 +140,7 @@ module.exports = (req, res) => {
     } else {
       req.url = '/https://' + targetUrl;
     }
-    console.log("Proxying to:", req.url);
+    console.log("Ishishu! Proxying to:", req.url);
   }
   
   server.emit("request", req, res);
