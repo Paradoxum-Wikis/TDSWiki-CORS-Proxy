@@ -127,6 +127,15 @@ module.exports = (req, res) => {
     if (urlObj.hostname.includes('roblox.com') || urlObj.hostname.includes('roproxy.com')) {
       req.headers['cookie'] = `.ROBLOSECURITY=${process.env.ROBLOSECURITY}`;
     }
+
+    // Add inside the request handler before calling server.emit
+    if (urlObj.hostname.includes('tds.fandom.com')) {
+      // Cache wiki content for 1 hour
+      res.setHeader('Cache-Control', 'public, max-age=3600, s-maxage=3600');
+    } else if (urlObj.hostname.includes('roblox.com') || urlObj.hostname.includes('roproxy.com')) {
+      // Cache Roblox assets for 24 hours
+      res.setHeader('Cache-Control', 'public, max-age=86400, s-maxage=86400');
+    }
   } catch (err) {
     res.statusCode = 400;
     res.end('Poyaya!? You need to provide a valid URL!');
