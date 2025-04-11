@@ -41,11 +41,12 @@ module.exports = (req, res) => {
               margin: 0 auto;
               padding: 20px;
             }
-            h1 { color: #2c3e50; }
+            h1, h2, h3 { color: #2c3e50; }
             code {
               background: #f8f8f8;
               padding: 2px 5px;
               border-radius: 3px;
+              font-size: 0.9em;
             }
             .lmao {
               background: #f5f7f9;
@@ -53,43 +54,118 @@ module.exports = (req, res) => {
               border-left: 4px solid #4b9ad8;
               margin: 20px 0;
             }
+            .new-feature {
+              background: #eaffea;
+              border-left: 4px solid #4CAF50;
+            }
+            table {
+              width: 100%;
+              border-collapse: collapse;
+              margin: 20px 0;
+            }
+            th, td {
+              border: 1px solid #ddd;
+              padding: 8px;
+              text-align: left;
+            }
+            th {
+              background-color: #f2f2f2;
+            }
           </style>
         </head>
         <body>
           <h1>TDS Wiki CORS Proxy</h1>
           <p>This service enables cross-origin requests to the <a href="https://tds.fandom.com">Tower Defense Simulator Wiki</a> only.</p>
           
-          <h2>Usage</h2>
-          <p>Use this proxy to fetch TDS Wiki pages by prepending the proxy URL to your target wiki URL or by passing the target URL as a query parameter. The two methods are, of course, supported for flexibility.</p>
+          <h2>General Proxy Usage</h2>
+          <p>Use this proxy to fetch content from allowed domains by either prepending the proxy URL or using a query parameter.</p>
 
           <h3>Method 1: Query Parameter (Recommended)</h3>
-          <p>Pass the TDS Wiki URL as a URL-encoded <code>url</code> query parameter after the proxy base URL:</p>
+          <p>Pass the target URL as a URL-encoded <code>url</code> query parameter:</p>
           <div class="lmao">
             <p><code>https://occulticnine.vercel.app/?url=https%3A%2F%2Ftds.fandom.com%2Fwiki</code></p>
             <p><strong>Example Output:</strong> Returns the HTML content of the <code>/wiki/</code> page.</p>
           </div>
-          <p><strong>Note:</strong> Use a tool like JavaScript’s <code>encodeURIComponent("https://tds.fandom.com/wiki/")</code> to encode the URL properly.</p>
+          <p><strong>Note:</strong> Use JavaScript's <code>encodeURIComponent()</code> to encode URLs properly.</p>
 
           <h3>Method 2: Path-Based Proxy</h3>
-          <p>Simply just append the full TDS Wiki URL (including <code>https://</code>) directly after the proxy base URL:</p>
+          <p>Append the full target URL directly after the proxy URL:</p>
           <div class="lmao">
             <p><code>https://occulticnine.vercel.app/https://tds.fandom.com/wiki/</code></p>
             <p><strong>Example Output:</strong> Returns the HTML content of the <code>/wiki/</code> page.</p>
           </div>
-          <p><strong>Note:</strong> Make sure that the target URL is fully qualified (starts with <code>https://</code>) and belongs to <code>tds.fandom.com</code>.</p>
 
-          <h3>Example in JavaScript</h3>
-          <div class="lmao">
-            <pre><code>fetch('https://occulticnine.vercel.app/?url=' + encodeURIComponent('https://tds.fandom.com/wiki'))
-            .then(response => response.text())
-            .then(html => console.log(html))
-            .catch(error => console.error('Error:', error));</code></pre>
+          <h2>Special Endpoints</h2>
+          
+          <h3>Badge Counter API</h3>
+          <div class="lmao new-feature">
+            <p>Use our dedicated badge API to fetch Roblox badge awarded counts:</p>
+            <p><code>https://occulticnine.vercel.app/badges?id=2124475816</code></p>
+            <p><strong>Result:</strong> Returns a JavaScript snippet that calls <code>window.__updateBadgeCount("2124475816", count)</code></p>
+            <p>Add this script tag to your HTML:</p>
+            <pre><code>&lt;script src="https://occulticnine.vercel.app/badges?id=2124475816"&gt;&lt;/script&gt;</code></pre>
+            <p>And implement this function to handle the counts:</p>
+            <pre><code>window.__updateBadgeCount = function(id, count) {
+  document.getElementById('badge-' + id).textContent = count.toLocaleString();
+};</code></pre>
           </div>
 
-          <h2>Restrictions:</h2>
+          <h3>Wiki Category Data</h3>
+          <div class="lmao new-feature">
+            <p>Pre-cached access to common wiki data:</p>
+            <p><code>https://occulticnine.vercel.app/common-wiki</code></p>
+            <p><strong>Result:</strong> Returns the TDS Database category listing with improved performance.</p>
+          </div>
+
+          <h2>Code Examples</h2>
+          
+          <h3>Basic Fetch Example</h3>
+          <div class="lmao">
+            <pre><code>// Fetching TDS Wiki content
+fetch('https://occulticnine.vercel.app/?url=' + encodeURIComponent('https://tds.fandom.com/wiki'))
+  .then(response => response.text())
+  .then(html => console.log(html))
+  .catch(error => console.error('Error:', error));</code></pre>
+          </div>
+
+          <h3>Fetching Roblox Assets</h3>
+          <div class="lmao new-feature">
+            <pre><code>// Fetching a Roblox asset with authentication
+fetch('https://occulticnine.vercel.app/https://assetdelivery.roproxy.com/v2/assetId/123456789')
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.error('Error:', error));</code></pre>
+          </div>
+
+          <h2>Supported Domains</h2>
+          <table>
+            <tr>
+              <th>Domain</th>
+              <th>Features</th>
+              <th>Cache Duration</th>
+            </tr>
+            <tr>
+              <td>tds.fandom.com</td>
+              <td>Full access to wiki content</td>
+              <td>1 hour</td>
+            </tr>
+            <tr>
+              <td>roblox.com</td>
+              <td>Authenticated API access</td>
+              <td>24 hours</td>
+            </tr>
+            <tr>
+              <td>roproxy.com</td>
+              <td>Authenticated API access</td>
+              <td>24 hours</td>
+            </tr>
+          </table>
+
+          <h2>Restrictions & Features</h2>
           <ul>
-            <li>Only requests to <code>tds.fandom.com</code> are allowed</li>
-            <li>Cookies are disabled and stripped from requests</li>
+            <li>Only requests to <code>${ALLOWED_DOMAINS.join(', ')}</code> are allowed</li>
+            <li>Automatic caching for better performance</li>
+            <li>Authenticated Roblox API requests</li>
             <li>Redirects are automatically followed (up to 5 redirects)</li>
             <li>Reaching singularity and then murder Gabonnie.</li>
           </ul>
