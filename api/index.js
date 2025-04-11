@@ -78,10 +78,9 @@ module.exports = (req, res) => {
           <p>This service enables cross-origin requests to the <a href="https://tds.fandom.com">Tower Defense Simulator Wiki</a> only.</p>
           
           <h2>General Proxy Usage</h2>
-          <p>Use this proxy to fetch content from allowed domains by either prepending the proxy URL or using a query parameter.</p>
+          <p>Use this proxy to fetch content from allowed domains by using a query parameter.</p>
 
-          <h3>Query Parameter</h3>
-          <p>Pass the target URL as a URL-encoded <code>url</code> query parameter:</p>
+          <p>To use the query, simply pass the target URL as a URL-encoded <code>url</code> query parameter:</p>
           <div class="lmao">
             <p><code>https://occulticnine.vercel.app/?url=https%3A%2F%2Ftds.fandom.com%2Fwiki</code></p>
             <p><strong>Example Output:</strong> Returns the HTML content of the <code>/wiki/</code> page.</p>
@@ -105,8 +104,7 @@ module.exports = (req, res) => {
           
             <h4>Method 2: WikiMedia Class Integration</h4>
             <p>Add this code to your wiki's common.js file to automatically load badge counts for elements with id classes:</p>
-            <pre><code>
-window.__updateBadgeCount = function(id, count) {
+            <pre><code>window.__updateBadgeCount = function(id, count) {
   document.querySelectorAll('.id' + id).forEach(el => {
     el.textContent = count.toLocaleString();
   });
@@ -140,8 +138,7 @@ document.querySelectorAll('[class*="id"]').forEach(el => {
           
           <h3>Basic Fetch Example</h3>
           <div class="lmao">
-            <pre><code>
-fetch('https://occulticnine.vercel.app/?url=' + encodeURIComponent('https://tds.fandom.com/wiki'))
+            <pre><code>fetch('https://occulticnine.vercel.app/?url=' + encodeURIComponent('https://tds.fandom.com/wiki'))
   .then(response => response.text())
   .then(html => console.log(html))
   .catch(error => console.error('Error:', error));</code></pre>
@@ -149,8 +146,7 @@ fetch('https://occulticnine.vercel.app/?url=' + encodeURIComponent('https://tds.
 
           <h3>Fetching Roblox Assets</h3>
           <div class="lmao new-feature">
-            <pre><code>
-fetch('https://occulticnine.vercel.app/https://assetdelivery.roproxy.com/v2/assetId/123456789')
+            <pre><code>fetch('https://occulticnine.vercel.app/https://assetdelivery.roproxy.com/v2/assetId/123456789')
   .then(response => response.json())
   .then(data => console.log(data))
   .catch(error => console.error('Error:', error));</code></pre>
@@ -187,7 +183,7 @@ fetch('https://occulticnine.vercel.app/https://assetdelivery.roproxy.com/v2/asse
             <li>Automatic caching for better performance</li>
             <li>Authenticated Roblox API requests</li>
             <li>Redirects are automatically followed (up to 5 redirects)</li>
-            <li>Reaching singularity and then murder Gabonnie.</li>
+            <li>Reaching singularity and then murder Gabonnie</li>
           </ul>
           
           <p><small>Powered by <a href="https://github.com/Rob--W/cors-anywhere/">CORS Anywhere</a>, named after <a href="https://wikipedia.org/wiki/Occultic;Nine">Occultic;Nine</a>.</small></p>
