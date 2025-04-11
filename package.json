@@ -11,6 +11,7 @@
   "description": "",
   "dependencies": {
     "cors-anywhere": "^0.4.4",
-    "http-proxy": "^1.18.1"
+    "http-proxy": "^1.18.1",
+    "node-fetch": "^2.6.7"
   }
 }
