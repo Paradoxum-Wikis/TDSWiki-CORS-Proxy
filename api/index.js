@@ -177,11 +177,9 @@ document.querySelectorAll('[class*="id"]').forEach(el => {
           </table>
           <p><strong>Note:</strong> Badges are cached for a week.</p>
 
-          <h2>Restrictions & Features</h2>
+          <h2>Restrictions</h2>
           <ul>
             <li>Only requests to <code>${ALLOWED_DOMAINS.join(', ')}</code> are allowed</li>
-            <li>Automatic caching for better performance</li>
-            <li>Authenticated Roblox API requests</li>
             <li>Redirects are automatically followed (up to 5 redirects)</li>
             <li>Reaching singularity and then murder Gabonnie</li>
           </ul>
