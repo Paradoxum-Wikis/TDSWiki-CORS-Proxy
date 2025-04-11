@@ -1,6 +1,7 @@
 {
   "version": 2,
   "rewrites": [
+    { "source": "/badges", "destination": "/api/badges.js" },
     { "source": "/(.*)", "destination": "/api/index.js" }
   ],
   "headers": [
