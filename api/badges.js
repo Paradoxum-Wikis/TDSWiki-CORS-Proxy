@@ -17,7 +17,7 @@ module.exports = async function(req, res) {
         const count = data?.statistics?.awardedCount ?? 0;
 
         res.setHeader('Content-Type', 'application/javascript');
-        res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate');
+        res.setHeader('Cache-Control', 's-maxage=604800, stale-while-revalidate');
         res.setHeader('Access-Control-Allow-Origin', '*');
 
         res.status(200).send(`window.__updateBadgeCount?.("${id}", ${count});`);

@@ -80,7 +80,7 @@ module.exports = (req, res) => {
           <h2>General Proxy Usage</h2>
           <p>Use this proxy to fetch content from allowed domains by either prepending the proxy URL or using a query parameter.</p>
 
-          <h3>Method 1: Query Parameter (Recommended)</h3>
+          <h3>Query Parameter</h3>
           <p>Pass the target URL as a URL-encoded <code>url</code> query parameter:</p>
           <div class="lmao">
             <p><code>https://occulticnine.vercel.app/?url=https%3A%2F%2Ftds.fandom.com%2Fwiki</code></p>
@@ -88,26 +88,45 @@ module.exports = (req, res) => {
           </div>
           <p><strong>Note:</strong> Use JavaScript's <code>encodeURIComponent()</code> to encode URLs properly.</p>
 
-          <h3>Method 2: Path-Based Proxy</h3>
-          <p>Append the full target URL directly after the proxy URL:</p>
-          <div class="lmao">
-            <p><code>https://occulticnine.vercel.app/https://tds.fandom.com/wiki/</code></p>
-            <p><strong>Example Output:</strong> Returns the HTML content of the <code>/wiki/</code> page.</p>
-          </div>
-
           <h2>Special Endpoints</h2>
           
           <h3>Badge Counter API</h3>
           <div class="lmao new-feature">
-            <p>Use our dedicated badge API to fetch Roblox badge awarded counts:</p>
+            <p>Use our dedicated badge API to fetch Roblox badge awarded counts.</p>
+            
+            <h4>Method 1: Direct Script Embedding</h4>
             <p><code>https://occulticnine.vercel.app/badges?id=2124475816</code></p>
-            <p><strong>Result:</strong> Returns a JavaScript snippet that calls <code>window.__updateBadgeCount("2124475816", count)</code></p>
             <p>Add this script tag to your HTML:</p>
             <pre><code>&lt;script src="https://occulticnine.vercel.app/badges?id=2124475816"&gt;&lt;/script&gt;</code></pre>
             <p>And implement this function to handle the counts:</p>
             <pre><code>window.__updateBadgeCount = function(id, count) {
   document.getElementById('badge-' + id).textContent = count.toLocaleString();
 };</code></pre>
+          
+            <h4>Method 2: WikiMedia Class Integration</h4>
+            <p>Add this code to your wiki's common.js file to automatically load badge counts for elements with id classes:</p>
+            <pre><code>
+window.__updateBadgeCount = function(id, count) {
+  document.querySelectorAll('.id' + id).forEach(el => {
+    el.textContent = count.toLocaleString();
+  });
+};
+
+document.querySelectorAll('[class*="id"]').forEach(el => {
+  const match = el.className.match(/id(\d{5,})/);
+  if (!match) return;
+
+  const badgeId = match[1];
+  const script = document.createElement('script');
+  script.src = 'https://occulticnine.vercel.app/badges?id=' + badgeId;
+  document.head.appendChild(script);
+});</code></pre>
+            
+            <p>Then simply add the badge ID as a class to any HTML element:</p>
+            <pre><code>&lt;span class="id2124475816"&gt;Loading...&lt;/span&gt;</code></pre>
+            <p>You can use multiple badge counters on the same page:</p>
+            <pre><code>&lt;div&gt;Event Badge: &lt;span class="id2124475816"&gt;Loading...&lt;/span&gt; awarded&lt;/div&gt;
+&lt;div&gt;Golden Badge: &lt;span class="id12345678"&gt;Loading...&lt;/span&gt; awarded&lt;/div&gt;</code></pre>
           </div>
 
           <h3>Wiki Category Data</h3>
@@ -121,7 +140,7 @@ module.exports = (req, res) => {
           
           <h3>Basic Fetch Example</h3>
           <div class="lmao">
-            <pre><code>// Fetching TDS Wiki content
+            <pre><code>
 fetch('https://occulticnine.vercel.app/?url=' + encodeURIComponent('https://tds.fandom.com/wiki'))
   .then(response => response.text())
   .then(html => console.log(html))
@@ -130,7 +149,7 @@ fetch('https://occulticnine.vercel.app/?url=' + encodeURIComponent('https://tds.
 
           <h3>Fetching Roblox Assets</h3>
           <div class="lmao new-feature">
-            <pre><code>// Fetching a Roblox asset with authentication
+            <pre><code>
 fetch('https://occulticnine.vercel.app/https://assetdelivery.roproxy.com/v2/assetId/123456789')
   .then(response => response.json())
   .then(data => console.log(data))
@@ -160,6 +179,7 @@ fetch('https://occulticnine.vercel.app/https://assetdelivery.roproxy.com/v2/asse
               <td>24 hours</td>
             </tr>
           </table>
+          <p><strong>Note:</strong> Badges are cached for a week.</p>
 
           <h2>Restrictions & Features</h2>
           <ul>
