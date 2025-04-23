@@ -10,7 +10,7 @@ let cachedData = null;
 let cacheTimestamp = 0;
 const CACHE_DURATION = 3600000; // 1 hour in milliseconds
 
-module.exports = async (_, res) => { // Use underscore to indicate unused parameter
+module.exports = async (_, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET");
   res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");

@@ -1,0 +1,17 @@
+# TDSWiki CORS Proxy
+CORS Proxy used mainly for the [TDS Statistics Editor](https://github.com/t7ru/TDS-Stats-Editor) and the [TDS Wiki](https://tds.fandom.com/).
+
+It is based on [cors-anywhere](https://github.com/Rob--W/cors-anywhere).
+
+## Installation
+```bash
+git clone https://github.com/t7ru/TDSWiki-CORS-Proxy.git
+cd cors-anywhere
+npm install
+```
+This repo is hosted on Vercel, you may also use it for the best result.
+
+The Roblox authentication cookie can be set with Environmental Variables as "ROBLOSECURITY".
+
+## More Information
+See https://occulticnine.vercel.app/

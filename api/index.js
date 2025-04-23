@@ -1,6 +1,5 @@
 const corsAnywhere = require("cors-anywhere");
 
-// Create server with modified settings
 const server = corsAnywhere.createServer({
   originWhitelist: [],
   requireHeader: [],
@@ -8,7 +7,6 @@ const server = corsAnywhere.createServer({
   helpFile: null
 });
 
-// Allow both TDS Wiki and Roblox domains
 const ALLOWED_DOMAINS = ["tds.fandom.com", "roblox.com", "roproxy.com"];
 
 module.exports = (req, res) => {
@@ -21,7 +19,7 @@ module.exports = (req, res) => {
     return;
   }
 
-  // If accessing the root, show custom help page
+  // If accessing the root, show docs
   if (req.url === "/" || req.url === "") {
     res.writeHead(200, { "Content-Type": "text/html" });
     res.end(`
