@@ -9,6 +9,8 @@ git clone https://github.com/t7ru/TDSWiki-CORS-Proxy.git
 cd cors-anywhere
 npm install
 ```
+You can skip ```npm install``` if you wish to continue with the node modules already found in the repo.
+
 This repo is hosted on Vercel, you may also use it for the best result.
 
 The Roblox authentication cookie can be set with Environmental Variables as "ROBLOSECURITY".
