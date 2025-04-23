@@ -1,9 +1,4 @@
-const corsAnywhere = require("cors-anywhere");
 const fetch = require('node-fetch');
-
-const server = corsAnywhere.createServer({
-  originWhitelist: [], requireHeader: [], removeHeaders: ["cookie2"], helpFile: null
-});
 
 // Cache the data in memory with a timestamp
 let cachedData = null;
@@ -15,7 +10,7 @@ module.exports = async (_, res) => {
   res.setHeader("Access-Control-Allow-Methods", "GET");
   res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   res.setHeader("Cache-Control", "public, max-age=3600, s-maxage=3600");
-  
+
   // Check if we need to refresh cache
   const now = Date.now();
   if (!cachedData || now - cacheTimestamp > CACHE_DURATION) {
@@ -32,6 +27,6 @@ module.exports = async (_, res) => {
   } else {
     console.log("Cache hit - serving cached data");
   }
-  
+
   res.status(200).send(cachedData);
 };
