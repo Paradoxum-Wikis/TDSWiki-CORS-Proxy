@@ -6,7 +6,7 @@ It is based on [cors-anywhere](https://github.com/Rob--W/cors-anywhere).
 ## Installation
 ```bash
 git clone https://github.com/t7ru/TDSWiki-CORS-Proxy.git
-cd cors-anywhere
+cd TDSWiki-CORS-Proxy
 npm install
 ```
 You can skip ```npm install``` if you wish to continue with the node modules already found in the repo.
