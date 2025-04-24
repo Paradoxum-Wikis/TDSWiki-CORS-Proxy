@@ -8,38 +8,53 @@ const server = corsAnywhere.createServer({
 });
 
 const ALLOWED_DOMAINS = ["tds.fandom.com", "roblox.com", "roproxy.com"];
-const ALLOWED_ORIGINS = ["tds-editor.live", "tds.fandom.com"];
+const ALLOWED_ORIGINS = ["tds-editor.live", "tds.fandom.com", "localhost", "127.0.0.1"];
 
 module.exports = (req, res) => {
   const origin = req.headers.origin;
   
   // Only allow requests from specified origins
   if (origin) {
-    const originUrl = new URL(origin);
-    const isAllowedOrigin = ALLOWED_ORIGINS.some(allowed => 
-      originUrl.hostname === allowed || originUrl.hostname.endsWith('.' + allowed)
-    );
-    
-    if (!isAllowedOrigin) {
+    try {
+      const originUrl = new URL(origin);
+      const isAllowedOrigin = ALLOWED_ORIGINS.some(allowed => 
+        originUrl.hostname === allowed || originUrl.hostname.endsWith('.' + allowed)
+      );
+      
+      if (!isAllowedOrigin) {
+        res.setHeader("Access-Control-Allow-Origin", origin);
+        res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS");
+        res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        res.statusCode = 403;
+        res.end(`Poyaya... Requests are only allowed from tds-editor.live and tds.fandom.com!`);
+        return;
+      }
+      
+      res.setHeader("Access-Control-Allow-Origin", origin);
+      res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS");
+      res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+      
+      // preflight requests
+      if (req.method === "OPTIONS") {
+        res.statusCode = 200;
+        res.end();
+        return;
+      }
+    } catch (err) {
+      res.setHeader("Access-Control-Allow-Origin", origin || "*");
+      res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS");
+      res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
       res.statusCode = 403;
-      res.end(`Poyaya... Requests are only allowed from tds-editor.live and tds.fandom.com!`);
+      res.end(`Poyaya? That's an invalid origin header!`);
       return;
     }
-    
-    res.setHeader("Access-Control-Allow-Origin", origin);
   } else {
     // For direct browser access or when origin is not specified
     res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   }
   
-  res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-
-  if (req.method === "OPTIONS") {
-    res.status(200).end();
-    return;
-  }
-
   // If accessing the root, show docs
   if (req.url === "/" || req.url === "") {
     res.writeHead(200, { "Content-Type": "text/html" });
@@ -199,6 +214,7 @@ document.querySelectorAll('[class*="id"]').forEach(el => {
           <h2>Restrictions</h2>
           <ul>
             <li>Only requests to <code>${ALLOWED_DOMAINS.join(', ')}</code> are allowed</li>
+            <li>Only origins from <code>${ALLOWED_ORIGINS.join(', ')}</code> are allowed</li>
             <li>Redirects are automatically followed (up to 5 redirects)</li>
             <li>Reaching singularity and then murder Gabonnie</li>
           </ul>
@@ -227,6 +243,9 @@ document.querySelectorAll('[class*="id"]').forEach(el => {
   try {
     const urlObj = new URL(targetUrl);
     if (!ALLOWED_DOMAINS.some(domain => urlObj.hostname.includes(domain))) {
+      res.setHeader("Access-Control-Allow-Origin", origin || "*");
+      res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS");
+      res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
       res.statusCode = 403;
       res.end(`Poyaya!? Sorry, only these domains are allowed: ${ALLOWED_DOMAINS.join(', ')}`);
       return;
@@ -246,6 +265,9 @@ document.querySelectorAll('[class*="id"]').forEach(el => {
       res.setHeader('Cache-Control', 'public, max-age=86400, s-maxage=86400');
     }
   } catch (err) {
+    res.setHeader("Access-Control-Allow-Origin", origin || "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.statusCode = 400;
     res.end('Poyaya!? You need to provide a valid URL!');
     return;
