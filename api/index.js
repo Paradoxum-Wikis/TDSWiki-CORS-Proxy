@@ -8,9 +8,30 @@ const server = corsAnywhere.createServer({
 });
 
 const ALLOWED_DOMAINS = ["tds.fandom.com", "roblox.com", "roproxy.com"];
+const ALLOWED_ORIGINS = ["tds-editor.live", "tds.fandom.com"];
 
 module.exports = (req, res) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  const origin = req.headers.origin;
+  
+  // Only allow requests from specified origins
+  if (origin) {
+    const originUrl = new URL(origin);
+    const isAllowedOrigin = ALLOWED_ORIGINS.some(allowed => 
+      originUrl.hostname === allowed || originUrl.hostname.endsWith('.' + allowed)
+    );
+    
+    if (!isAllowedOrigin) {
+      res.statusCode = 403;
+      res.end(`Poyaya... Requests are only allowed from tds-editor.live and tds.fandom.com!`);
+      return;
+    }
+    
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  } else {
+    // For direct browser access or when origin is not specified
+    res.setHeader("Access-Control-Allow-Origin", "*");
+  }
+  
   res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
