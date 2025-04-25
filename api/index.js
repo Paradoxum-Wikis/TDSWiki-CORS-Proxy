@@ -242,7 +242,10 @@ document.querySelectorAll('[class*="id"]').forEach(el => {
   // Check if URL is from allowed domains
   try {
     const urlObj = new URL(targetUrl);
-    if (!ALLOWED_DOMAINS.some(domain => urlObj.hostname.includes(domain))) {
+    if (!ALLOWED_DOMAINS.some(domain => 
+        urlObj.hostname === domain || 
+        urlObj.hostname.endsWith('.' + domain)
+    )) {
       res.setHeader("Access-Control-Allow-Origin", origin || "*");
       res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS");
       res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -251,16 +254,22 @@ document.querySelectorAll('[class*="id"]').forEach(el => {
       return;
     }
 
-    // Add ROBLOSECURITY cookie for Roblox domains
-    if (urlObj.hostname.includes('roblox.com') || urlObj.hostname.includes('roproxy.com')) {
+    const isRobloxDomain = urlObj.hostname === 'roblox.com' || 
+                          urlObj.hostname.endsWith('.roblox.com') ||
+                          urlObj.hostname === 'roproxy.com' ||
+                          urlObj.hostname.endsWith('.roproxy.com');
+                          
+    if (isRobloxDomain) {
       req.headers['cookie'] = `.ROBLOSECURITY=${process.env.ROBLOSECURITY}`;
     }
 
-    // Add inside the request handler before calling server.emit
-    if (urlObj.hostname.includes('tds.fandom.com')) {
+    const isTdsFandom = urlObj.hostname === 'tds.fandom.com' || 
+                        urlObj.hostname.endsWith('.tds.fandom.com');
+                        
+    if (isTdsFandom) {
       // Cache wiki content for 1 hour
       res.setHeader('Cache-Control', 'public, max-age=3600, s-maxage=3600');
-    } else if (urlObj.hostname.includes('roblox.com') || urlObj.hostname.includes('roproxy.com')) {
+    } else if (isRobloxDomain) {
       // Cache Roblox assets for 24 hours
       res.setHeader('Cache-Control', 'public, max-age=86400, s-maxage=86400');
     }
