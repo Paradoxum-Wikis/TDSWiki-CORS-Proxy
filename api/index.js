@@ -136,7 +136,7 @@ module.exports = (req, res) => {
   document.getElementById('badge-' + id).textContent = count.toLocaleString();
 };</code></pre>
           
-            <h4>Method 2: WikiMedia Class Integration</h4>
+            <h4>Method 2: Wikimedia Class Integration</h4>
             <p>Add this code to your wiki's common.js file to automatically load badge counts for elements with id classes:</p>
             <pre><code>window.__updateBadgeCount = function(id, count) {
   document.querySelectorAll('.id' + id).forEach(el => {
@@ -180,7 +180,7 @@ document.querySelectorAll('[class*="id"]').forEach(el => {
 
           <h3>Fetching Roblox Assets</h3>
           <div class="lmao new-feature">
-            <pre><code>fetch('https://occulticnine.vercel.app/https://assetdelivery.roproxy.com/v2/assetId/123456789')
+            <pre><code>fetch('https://occulticnine.vercel.app/?url=https://assetdelivery.roproxy.com/v2/assetId/123456789')
   .then(response => response.json())
   .then(data => console.log(data))
   .catch(error => console.error('Error:', error));</code></pre>
