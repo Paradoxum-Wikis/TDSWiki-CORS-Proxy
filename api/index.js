@@ -164,7 +164,8 @@ document.querySelectorAll('[class*="id"]').forEach(el => {
           <h3>Wiki Category Data</h3>
           <div class="lmao new-feature">
             <p>Pre-cached access to common wiki data:</p>
-            <p><code>https://occulticnine.vercel.app/common-wiki</code></p>
+            <p><code>https://occulticnine.vercel.app/dbtree</code></p>
+            <p><code>https://occulticnine.vercel.app/common-wiki</code> (legacy URL)</p>
             <p><strong>Result:</strong> Returns the TDS Database category listing with improved performance.</p>
           </div>
 
