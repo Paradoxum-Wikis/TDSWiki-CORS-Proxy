@@ -2,6 +2,7 @@
   "version": 2,
   "rewrites": [
     { "source": "/badges", "destination": "/api/badges.js" },
+    { "source": "/common-wiki", "destination": "/api/common-wiki.js" },
     { "source": "/(.*)", "destination": "/api/index.js" }
   ],
   "headers": [
