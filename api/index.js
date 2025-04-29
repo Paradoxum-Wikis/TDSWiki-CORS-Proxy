@@ -8,7 +8,7 @@ const server = corsAnywhere.createServer({
 });
 
 const ALLOWED_DOMAINS = ["tds.fandom.com", "roblox.com", "roproxy.com"];
-const ALLOWED_ORIGINS = ["tds-editor.live", "tds.fandom.com", "localhost", "127.0.0.1"];
+const ALLOWED_ORIGINS = require('./allowedorigin');
 
 module.exports = (req, res) => {
   const origin = req.headers.origin;

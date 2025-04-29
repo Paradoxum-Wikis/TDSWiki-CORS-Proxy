@@ -1,4 +1,5 @@
 const fetch = require('node-fetch');
+const ALLOWED_ORIGINS = require('./allowedorigin');
 
 // Cache the data in memory with a timestamp
 let cachedData = null;
@@ -6,8 +7,15 @@ let cacheTimestamp = 0;
 const CACHE_DURATION = 3600000; // 1 hour in milliseconds
 
 module.exports = async (req, res) => {
-  const origin = req.headers.origin || '*';
-  res.setHeader("Access-Control-Allow-Origin", origin);
+  const origin = req.headers.origin;
+
+  // Restrict origins
+  if (origin && !ALLOWED_ORIGINS.includes(origin)) {
+    res.status(403).send("Poyaya! Origin not allowed");
+    return;
+  }
+
+  res.setHeader("Access-Control-Allow-Origin", origin || "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   res.setHeader("Cache-Control", "public, max-age=3600, s-maxage=3600");
