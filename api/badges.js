@@ -5,9 +5,17 @@ module.exports = async function(req, res) {
     const { id } = req.query;
     const origin = req.headers.origin;
 
-    if (origin && !ALLOWED_ORIGINS.includes(origin)) {
-        res.setHeader('Content-Type', 'application/javascript');
-        return res.status(403).send("Poyaya! Origin not allowed");
+    if (origin) {
+        try {
+            const { hostname } = new URL(origin);
+            if (!ALLOWED_ORIGINS.includes(hostname)) {
+                res.status(403).send("Poyaya! Origin not allowed");
+                return;
+            }
+        } catch (e) {
+            res.status(403).send("Poyaya! Invalid origin");
+            return;
+        }
     }
 
     if (!id || !/^\d+$/.test(id)) {

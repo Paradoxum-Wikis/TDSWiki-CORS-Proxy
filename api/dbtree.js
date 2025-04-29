@@ -20,9 +20,17 @@ module.exports = async (req, res) => {
   }
 
   // Restrict origins
-  if (origin && !ALLOWED_ORIGINS.includes(origin)) {
-    res.status(403).send("Poyaya! Origin not allowed");
-    return;
+  if (origin) {
+    try {
+      const { hostname } = new URL(origin);
+      if (!ALLOWED_ORIGINS.includes(hostname)) {
+        res.status(403).send("Poyaya! Origin not allowed");
+        return;
+      }
+    } catch (e) {
+      res.status(403).send("Poyaya! Invalid origin");
+      return;
+    }
   }
 
   // Check if we need to refresh cache
