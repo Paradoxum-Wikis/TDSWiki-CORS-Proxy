@@ -1,6 +1,6 @@
 module.exports = [
-    "tds-editor.live",
+    "tds-editor.com",
     "occulticnine.vercel.app",
-    "localhost",
-    "127.0.0.1"
+    "localhost", // may remove in the future
+    "127.0.0.1" // ditto
   ];
