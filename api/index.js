@@ -116,10 +116,10 @@ module.exports = (req, res) => {
 
           <p>To use the query, simply pass the target URL as a URL-encoded <code>url</code> query parameter:</p>
           <div class="lmao">
-            <p><code>https://occulticnine.vercel.app/?url=https%3A%2F%2Ftds.fandom.com%2Fwiki</code></p>
+            <p><code>https://api.tds-editor.com/?url=https%3A%2F%2Ftds.fandom.com%2Fwiki</code></p>
             <p><strong>Example Output:</strong> Returns the HTML content of the <code>/wiki/</code> page.</p>
           </div>
-          <p><strong>Note:</strong> Use JavaScript's <code>encodeURIComponent()</code> to encode URLs properly.</p>
+          <p><strong>Note:</strong> Use JavaScript's <code>encodeURIComponent()</code> to encode URLs properly, <code>occulticnine.vercel.app</code> can also be used instead of <code>api.tds-editor.com</code>.</p>
 
           <h2>Special Endpoints</h2>
           
@@ -128,9 +128,9 @@ module.exports = (req, res) => {
             <p>Use our dedicated badge API to fetch Roblox badge awarded counts.</p>
             
             <h4>Method 1: Direct Script Embedding</h4>
-            <p><code>https://occulticnine.vercel.app/badges?id=2124475816</code></p>
+            <p><code>https://api.tds-editor.com/badges?id=2124475816</code></p>
             <p>Add this script tag to your HTML:</p>
-            <pre><code>&lt;script src="https://occulticnine.vercel.app/badges?id=2124475816"&gt;&lt;/script&gt;</code></pre>
+            <pre><code>&lt;script src="https://api.tds-editor.com/badges?id=2124475816"&gt;&lt;/script&gt;</code></pre>
             <p>And implement this function to handle the counts:</p>
             <pre><code>window.__updateBadgeCount = function(id, count) {
   document.getElementById('badge-' + id).textContent = count.toLocaleString();
@@ -150,7 +150,7 @@ document.querySelectorAll('[class*="id"]').forEach(el => {
 
   const badgeId = match[1];
   const script = document.createElement('script');
-  script.src = 'https://occulticnine.vercel.app/badges?id=' + badgeId;
+  script.src = 'https://api.tds-editor.com/badges?id=' + badgeId;
   document.head.appendChild(script);
 });</code></pre>
             
@@ -164,8 +164,8 @@ document.querySelectorAll('[class*="id"]').forEach(el => {
           <h3>Wiki Category Data</h3>
           <div class="lmao new-feature">
             <p>Pre-cached access to common wiki data:</p>
-            <p><code>https://occulticnine.vercel.app/dbtree</code></p>
-            <p><code>https://occulticnine.vercel.app/common-wiki</code> (legacy URL)</p>
+            <p><code>https://api.tds-editor.com/dbtree</code></p>
+            <p><code>https://api.tds-editor.com/common-wiki</code> (legacy URL)</p>
             <p><strong>Result:</strong> Returns the TDS Database category listing with improved performance.</p>
           </div>
 
@@ -173,7 +173,7 @@ document.querySelectorAll('[class*="id"]').forEach(el => {
           
           <h3>Basic Fetch Example</h3>
           <div class="lmao">
-            <pre><code>fetch('https://occulticnine.vercel.app/?url=' + encodeURIComponent('https://tds.fandom.com/wiki'))
+            <pre><code>fetch('https://api.tds-editor.com/?url=' + encodeURIComponent('https://tds.fandom.com/wiki'))
   .then(response => response.text())
   .then(html => console.log(html))
   .catch(error => console.error('Error:', error));</code></pre>
@@ -181,7 +181,7 @@ document.querySelectorAll('[class*="id"]').forEach(el => {
 
           <h3>Fetching Roblox Assets</h3>
           <div class="lmao new-feature">
-            <pre><code>fetch('https://occulticnine.vercel.app/?url=https://assetdelivery.roproxy.com/v2/assetId/123456789')
+            <pre><code>fetch('https://api.tds-editor.com/?url=https://assetdelivery.roproxy.com/v2/assetId/123456789')
   .then(response => response.json())
   .then(data => console.log(data))
   .catch(error => console.error('Error:', error));</code></pre>

@@ -16,4 +16,4 @@ This repo is hosted on Vercel, you may also use it for the best result.
 The Roblox authentication cookie can be set with Environmental Variables as "ROBLOSECURITY".
 
 ## More Information
-See https://occulticnine.vercel.app/
+See https://api.tds-editor.com/
