@@ -38,7 +38,7 @@ module.exports = async (req, res) => {
   if (!cachedData || now - cacheTimestamp > CACHE_DURATION) {
     try {
       console.log("Cache miss - fetching fresh data");
-      const response = await fetch('https://tds.fandom.com/wiki/Special:CategoryTree?target=Category%3ATDSDatabase&mode=pages&namespaces=500');
+      const response = await fetch('https://tds.fandom.com/wiki/User:Gabonnie/DBT?action=render');
       
       if (!response.ok) {
         throw new Error(`Failed to fetch: ${response.status} ${response.statusText}`);
