@@ -26,7 +26,7 @@ module.exports = (req, res) => {
         res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS");
         res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         res.statusCode = 403;
-        res.end(`Poyaya... Requests are only allowed from tds-editor.live and tds.fandom.com!`);
+        res.end(`Poyaya... Requests are only allowed from tds-editor.com, tds.fandom.com and alter-ego.fandom.com!`);
         return;
       }
       
