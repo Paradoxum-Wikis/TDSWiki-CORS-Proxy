@@ -7,7 +7,7 @@ const server = corsAnywhere.createServer({
   helpFile: null
 });
 
-const ALLOWED_DOMAINS = ["tds.fandom.com", "roblox.com", "roproxy.com"];
+const ALLOWED_DOMAINS = ["tds.fandom.com", "alter-ego.fandom.com", "roblox.com"];
 const ALLOWED_ORIGINS = require('./allowedorigin');
 
 module.exports = (req, res) => {
@@ -181,7 +181,7 @@ document.querySelectorAll('[class*="id"]').forEach(el => {
 
           <h3>Fetching Roblox Assets</h3>
           <div class="lmao new-feature">
-            <pre><code>fetch('https://api.tds-editor.com/?url=https://assetdelivery.roproxy.com/v2/assetId/123456789')
+            <pre><code>fetch('https://api.tds-editor.com/?url=https://assetdelivery.roblox.com/v2/assetId/123456789')
   .then(response => response.json())
   .then(data => console.log(data))
   .catch(error => console.error('Error:', error));</code></pre>
@@ -200,12 +200,12 @@ document.querySelectorAll('[class*="id"]').forEach(el => {
               <td>1 hour</td>
             </tr>
             <tr>
-              <td>roblox.com</td>
-              <td>Authenticated API access</td>
-              <td>24 hours</td>
+              <td>alter-ego.fandom.com</td>
+              <td>Full access to wiki content</td>
+              <td>1 hour</td>
             </tr>
             <tr>
-              <td>roproxy.com</td>
+              <td>roblox.com</td>
               <td>Authenticated API access</td>
               <td>24 hours</td>
             </tr>
@@ -255,22 +255,22 @@ document.querySelectorAll('[class*="id"]').forEach(el => {
       return;
     }
 
-    const isRobloxDomain = urlObj.hostname === 'roblox.com' || 
-                          urlObj.hostname.endsWith('.roblox.com') ||
-                          urlObj.hostname === 'roproxy.com' ||
-                          urlObj.hostname.endsWith('.roproxy.com');
+    const isRoblox = urlObj.hostname === 'roblox.com' || 
+                          urlObj.hostname.endsWith('.roblox.com');
                           
-    if (isRobloxDomain) {
+    if (isRoblox) {
       req.headers['cookie'] = `.ROBLOSECURITY=${process.env.ROBLOSECURITY}`;
     }
 
-    const isTdsFandom = urlObj.hostname === 'tds.fandom.com' || 
-                        urlObj.hostname.endsWith('.tds.fandom.com');
+    const isFandom = urlObj.hostname === 'tds.fandom.com' || 
+                        urlObj.hostname.endsWith('.tds.fandom.com') ||
+                        urlObj.hostname === 'alter-ego.fandom.com' || 
+                        urlObj.hostname.endsWith('.alter-ego.fandom.com');
                         
-    if (isTdsFandom) {
+    if (isFandom) {
       // Cache wiki content for 1 hour
       res.setHeader('Cache-Control', 'public, max-age=3600, s-maxage=3600');
-    } else if (isRobloxDomain) {
+    } else if (isRoblox) {
       // Cache Roblox assets for 24 hours
       res.setHeader('Cache-Control', 'public, max-age=86400, s-maxage=86400');
     }

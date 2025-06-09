@@ -23,7 +23,7 @@ module.exports = async function(req, res) {
         return res.status(400).send(`console.error("Invalid badge ID");`);
     }
 
-    const badgeUrl = `https://badges.roproxy.com/v1/badges/${id}`;
+    const badgeUrl = `https://badges.roblox.com/v1/badges/${id}`;
 
     try {
         const response = await fetch(badgeUrl);
