@@ -26,7 +26,7 @@ module.exports = (req, res) => {
         res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS");
         res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         res.statusCode = 403;
-        res.end(`Poyaya... Requests are only allowed from tds-editor.com, tds.fandom.com and alter-ego.fandom.com!`);
+        res.end(`Poyaya... Requests are only allowed from ${ALLOWED_ORIGINS.join(', ')}!`);
         return;
       }
       
@@ -215,11 +215,16 @@ document.querySelectorAll('[class*="id"]').forEach(el => {
           <h2>Restrictions</h2>
           <ul>
             <li>Only requests to <code>${ALLOWED_DOMAINS.join(', ')}</code> are allowed</li>
-            <li>Only origins from <code>${ALLOWED_ORIGINS.join(', ')}</code> are allowed</li>
+            <li>
+              Only origins from <code>${ALLOWED_ORIGINS.join(', ')}</code> are allowed
+              <ul>
+                <li>The <code>/badges</code> endpoint is open to everyone</li>
+              </ul>
+            </li>
             <li>Redirects are automatically followed (up to 5 redirects)</li>
             <li>Reaching singularity and then murder Gabonnie</li>
           </ul>
-          
+
           <p><small>Powered by <a href="https://github.com/Rob--W/cors-anywhere/">CORS Anywhere</a>, named after <a href="https://wikipedia.org/wiki/Occultic;Nine">Occultic;Nine</a>.</small></p>
         </body>
       </html>

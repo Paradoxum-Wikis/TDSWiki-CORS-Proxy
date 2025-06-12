@@ -1,22 +1,8 @@
 const fetch = require('node-fetch');
-const ALLOWED_ORIGINS = require('./allowedorigin');
 
 module.exports = async function(req, res) {
     const { id } = req.query;
     const origin = req.headers.origin;
-
-    if (origin) {
-        try {
-            const { hostname } = new URL(origin);
-            if (!ALLOWED_ORIGINS.includes(hostname)) {
-                res.status(403).send("Poyaya! Origin not allowed");
-                return;
-            }
-        } catch (e) {
-            res.status(403).send("Poyaya! Invalid origin");
-            return;
-        }
-    }
 
     if (!id || !/^\d+$/.test(id)) {
         res.setHeader('Content-Type', 'application/javascript');
