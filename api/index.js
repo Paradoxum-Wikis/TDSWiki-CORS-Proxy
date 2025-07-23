@@ -3,37 +3,59 @@ const corsAnywhere = require("cors-anywhere");
 const server = corsAnywhere.createServer({
   originWhitelist: [],
   requireHeader: [],
-  removeHeaders: ["cookie2"],  // Don't remove all cookies
-  helpFile: null
+  removeHeaders: ["cookie2"],
+  helpFile: null,
 });
 
-const ALLOWED_DOMAINS = ["tds.fandom.com", "alter-ego.fandom.com", "roblox.com"];
-const ALLOWED_ORIGINS = require('./allowedorigin');
+const ALLOWED_DOMAINS = [
+  "tds.fandom.com",
+  "alter-ego.fandom.com",
+  "roblox.com",
+];
+const ALLOWED_ORIGINS = require("./allowedorigin");
 
 module.exports = (req, res) => {
   const origin = req.headers.origin;
-  
+
   // Only allow requests from specified origins
   if (origin) {
     try {
       const originUrl = new URL(origin);
-      const isAllowedOrigin = ALLOWED_ORIGINS.some(allowed => 
-        originUrl.hostname === allowed || originUrl.hostname.endsWith('.' + allowed)
+      const isAllowedOrigin = ALLOWED_ORIGINS.some(
+        (allowed) =>
+          originUrl.hostname === allowed ||
+          originUrl.hostname.endsWith("." + allowed)
       );
-      
+
       if (!isAllowedOrigin) {
         res.setHeader("Access-Control-Allow-Origin", origin);
-        res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS");
-        res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        res.setHeader(
+          "Access-Control-Allow-Methods",
+          "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS"
+        );
+        res.setHeader(
+          "Access-Control-Allow-Headers",
+          "Origin, X-Requested-With, Content-Type, Accept"
+        );
         res.statusCode = 403;
-        res.end(`Poyaya... Requests are only allowed from ${ALLOWED_ORIGINS.join(', ')}!`);
+        res.end(
+          `Poyaya... Requests are only allowed from ${ALLOWED_ORIGINS.join(
+            ", "
+          )}!`
+        );
         return;
       }
-      
+
       res.setHeader("Access-Control-Allow-Origin", origin);
-      res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS");
-      res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-      
+      res.setHeader(
+        "Access-Control-Allow-Methods",
+        "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS"
+      );
+      res.setHeader(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept"
+      );
+
       // preflight requests
       if (req.method === "OPTIONS") {
         res.statusCode = 200;
@@ -42,8 +64,14 @@ module.exports = (req, res) => {
       }
     } catch (err) {
       res.setHeader("Access-Control-Allow-Origin", origin || "*");
-      res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS");
-      res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+      res.setHeader(
+        "Access-Control-Allow-Methods",
+        "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS"
+      );
+      res.setHeader(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept"
+      );
       res.statusCode = 403;
       res.end(`Poyaya? That's an invalid origin header!`);
       return;
@@ -51,10 +79,16 @@ module.exports = (req, res) => {
   } else {
     // For direct browser access or when origin is not specified
     res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS");
-    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.setHeader(
+      "Access-Control-Allow-Methods",
+      "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS"
+    );
+    res.setHeader(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept"
+    );
   }
-  
+
   // If accessing the root, show docs
   if (req.url === "/" || req.url === "") {
     res.writeHead(200, { "Content-Type": "text/html" });
@@ -161,13 +195,7 @@ document.querySelectorAll('[class*="id"]').forEach(el => {
 &lt;div&gt;Golden Badge: &lt;span class="id12345678"&gt;Loading...&lt;/span&gt; awarded&lt;/div&gt;</code></pre>
           </div>
 
-          <h3>Wiki Category Data</h3>
-          <div class="lmao new-feature">
-            <p>Pre-cached access to common wiki data:</p>
-            <p><code>https://api.tds-editor.com/dbtree</code></p>
-            <p><code>https://api.tds-editor.com/common-wiki</code> (legacy URL)</p>
-            <p><strong>Result:</strong> Returns the TDS Database category listing with improved performance.</p>
-          </div>
+          <h3>There is also 'dbtree' and 'randomizer' but these are only used by the Statistics Editor.</h3>
 
           <h2>Code Examples</h2>
           
@@ -214,9 +242,13 @@ document.querySelectorAll('[class*="id"]').forEach(el => {
 
           <h2>Restrictions</h2>
           <ul>
-            <li>Only requests to <code>${ALLOWED_DOMAINS.join(', ')}</code> are allowed</li>
+            <li>Only requests to <code>${ALLOWED_DOMAINS.join(
+              ", "
+            )}</code> are allowed</li>
             <li>
-              Only origins from <code>${ALLOWED_ORIGINS.join(', ')}</code> are allowed
+              Only origins from <code>${ALLOWED_ORIGINS.join(
+                ", "
+              )}</code> are allowed
               <ul>
                 <li>The <code>/badges</code> endpoint is open to everyone</li>
               </ul>
@@ -234,7 +266,7 @@ document.querySelectorAll('[class*="id"]').forEach(el => {
 
   // Extract target URL (either from query param or path)
   let targetUrl = "";
-  
+
   if (req.query.url) {
     targetUrl = req.query.url;
   } else {
@@ -248,55 +280,75 @@ document.querySelectorAll('[class*="id"]').forEach(el => {
   // Check if URL is from allowed domains
   try {
     const urlObj = new URL(targetUrl);
-    if (!ALLOWED_DOMAINS.some(domain => 
-        urlObj.hostname === domain || 
-        urlObj.hostname.endsWith('.' + domain)
-    )) {
+    if (
+      !ALLOWED_DOMAINS.some(
+        (domain) =>
+          urlObj.hostname === domain || urlObj.hostname.endsWith("." + domain)
+      )
+    ) {
       res.setHeader("Access-Control-Allow-Origin", origin || "*");
-      res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS");
-      res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+      res.setHeader(
+        "Access-Control-Allow-Methods",
+        "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS"
+      );
+      res.setHeader(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept"
+      );
       res.statusCode = 403;
-      res.end(`Poyaya!? Sorry, only these domains are allowed: ${ALLOWED_DOMAINS.join(', ')}`);
+      res.end(
+        `Poyaya!? Sorry, only these domains are allowed: ${ALLOWED_DOMAINS.join(
+          ", "
+        )}`
+      );
       return;
     }
 
-    const isRoblox = urlObj.hostname === 'roblox.com' || 
-                          urlObj.hostname.endsWith('.roblox.com');
-                          
+    const isRoblox =
+      urlObj.hostname === "roblox.com" ||
+      urlObj.hostname.endsWith(".roblox.com");
+
     if (isRoblox) {
-      req.headers['cookie'] = `.ROBLOSECURITY=${process.env.ROBLOSECURITY}`;
+      req.headers["cookie"] = `.ROBLOSECURITY=${process.env.ROBLOSECURITY}`;
     }
 
-    const isFandom = urlObj.hostname === 'tds.fandom.com' || 
-                        urlObj.hostname.endsWith('.tds.fandom.com') ||
-                        urlObj.hostname === 'alter-ego.fandom.com' || 
-                        urlObj.hostname.endsWith('.alter-ego.fandom.com');
-                        
+    const isFandom =
+      urlObj.hostname === "tds.fandom.com" ||
+      urlObj.hostname.endsWith(".tds.fandom.com") ||
+      urlObj.hostname === "alter-ego.fandom.com" ||
+      urlObj.hostname.endsWith(".alter-ego.fandom.com");
+
     if (isFandom) {
       // Cache wiki content for 1 hour
-      res.setHeader('Cache-Control', 'public, max-age=3600, s-maxage=3600');
+      res.setHeader("Cache-Control", "public, max-age=3600, s-maxage=3600");
     } else if (isRoblox) {
       // Cache Roblox assets for 24 hours
-      res.setHeader('Cache-Control', 'public, max-age=86400, s-maxage=86400');
+      res.setHeader("Cache-Control", "public, max-age=86400, s-maxage=86400");
     }
   } catch (err) {
     res.setHeader("Access-Control-Allow-Origin", origin || "*");
-    res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS");
-    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.setHeader(
+      "Access-Control-Allow-Methods",
+      "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS"
+    );
+    res.setHeader(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept"
+    );
     res.statusCode = 400;
-    res.end('Poyaya!? You need to provide a valid URL!');
+    res.end("Poyaya!? You need to provide a valid URL!");
     return;
   }
-  
+
   // Format URL for cors-anywhere
   if (req.query.url) {
-    if (targetUrl.startsWith('http://') || targetUrl.startsWith('https://')) {
-      req.url = '/' + targetUrl;
+    if (targetUrl.startsWith("http://") || targetUrl.startsWith("https://")) {
+      req.url = "/" + targetUrl;
     } else {
-      req.url = '/https://' + targetUrl;
+      req.url = "/https://" + targetUrl;
     }
     console.log("Ishishu! Proxying to:", req.url);
   }
-  
+
   server.emit("request", req, res);
 };
