@@ -96,7 +96,7 @@ module.exports = (req, res) => {
       <!DOCTYPE html>
       <html>
         <head>
-          <title>CORS Proxy for TDS Wiki</title>
+          <title>TDS Wiki API</title>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1">
           <link rel="shortcut icon" href="https://static.wikia.nocookie.net/tower-defense-sim/images/4/4a/Site-favicon.ico">
@@ -142,9 +142,9 @@ module.exports = (req, res) => {
           </style>
         </head>
         <body>
-          <h1>TDS Wiki CORS Proxy</h1>
-          <p>This service enables cross-origin requests to the <a href="https://tds.fandom.com">Tower Defense Simulator Wiki</a> only.</p>
-          
+          <h1>TDS Wiki API</h1>
+          <p>This service enables cross-origin requests to the <a href="https://tds.fandom.com">Tower Defense Simulator Wiki</a> and <a href="https://alter-ego.fandom.com">ALTER EGO Wiki</a>.</p>
+
           <h2>General Proxy Usage</h2>
           <p>Use this proxy to fetch content from allowed domains by using a query parameter.</p>
 
