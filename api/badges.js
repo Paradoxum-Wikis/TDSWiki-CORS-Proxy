@@ -21,7 +21,14 @@ module.exports = async function(req, res) {
         res.setHeader('Cache-Control', 's-maxage=604800, stale-while-revalidate');
         res.setHeader('Access-Control-Allow-Origin', origin || "*");
 
-        res.status(200).send(`window.__updateBadgeCount?.("${id}", ${count});`);
+        const script = `
+window.__updateBadgeCount = window.__updateBadgeCount || ((id, count) => {
+  const el = document.querySelector('.id' + id);
+  if (el) el.textContent = count.toLocaleString();
+});
+window.__updateBadgeCount?.("${id}", ${count});
+`;
+        res.status(200).send(script);
     } catch (err) {
         res.setHeader('Content-Type', 'application/javascript');
         res.status(500).send(`console.error("Fetch failed for badge ${id}:", ${JSON.stringify(err.message)});`);
