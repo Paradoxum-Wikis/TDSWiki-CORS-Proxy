@@ -4,6 +4,7 @@
     { "source": "/badges", "destination": "/api/badges.js" },
     { "source": "/dbtree", "destination": "/api/dbtree.js" },
     { "source": "/randomizer", "destination": "/api/randomizer.js" },
+    { "source": "/play", "destination": "/api/play.js" },
     { "source": "/(.*)", "destination": "/api/index.js" }
   ],
   "headers": [
