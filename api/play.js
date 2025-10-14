@@ -26,6 +26,7 @@ module.exports = async function (req, res) {
             img {
               max-width: 200px;
               margin-bottom: 20px;
+              filter: invert();
             }
             h1 {
               color: #333;
@@ -40,6 +41,27 @@ module.exports = async function (req, res) {
             }
             a:hover {
               color: #4b0000;
+            }
+            
+            @media (prefers-color-scheme: dark) {
+              body {
+                background-color: #161616;
+              }
+              h1 {
+                color: white;
+              }
+              p {
+                color: #e6e6e6;
+              }
+              a {
+                color: #df4c4c;
+              }
+              a:hover {
+                color: #ff6b6b;
+              }
+              img {
+                filter: none;
+              }
             }
           </style>
         </head>
@@ -77,6 +99,7 @@ module.exports = async function (req, res) {
           img {
             max-width: 200px;
             margin-bottom: 20px;
+            filter: invert();
           }
           h1 {
             color: #333;
@@ -99,6 +122,30 @@ module.exports = async function (req, res) {
             color: #b10000;
             font-family: 'Special Elite';
             margin-top: 20px;
+          }
+          
+          @media (prefers-color-scheme: dark) {
+            body {
+              background-color: #161616;
+            }
+            h1 {
+              color: white;
+            }
+            p {
+              color: #e6e6e6;
+            }
+            a {
+              color: #df4c4c;
+            }
+            a:hover {
+              color: #ff6b6b;
+            }
+            #countdown {
+              color: #df4c4c;
+            }
+            img {
+              filter: none;
+            }
           }
         </style>
         <script>
